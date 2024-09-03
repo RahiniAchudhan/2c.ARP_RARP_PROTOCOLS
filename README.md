@@ -17,9 +17,39 @@ stored.
 5. Map the IP address with its MAC address and return the MAC address to client.
 P
 ## PROGRAM - ARP
+```
+import socket
+s=socket.socket()
+s.bind(('localhost',8880))
+s.listen(5)
+c,addr=s.accept()
+address={"192.168.144.56":" AC:50:DE:1B:DE:65"};
+while True:
+ip=c.recv(1024).decode()
+try:
+c.send(address[ip].encode())
+except KeyError:
+c.send("Not Found".encode())
+```
 ## OUPUT - ARP
+
+![image](https://github.com/user-attachments/assets/32555b1f-bfac-4c85-af90-7d4ca33d8744)
+
+
 ## PROGRAM - RARP
+```
+import socket
+s=socket.socket()
+s.connect(('localhost',8880))
+while True:
+ip=input("Enter Logical Address:")
+s.send(ip.encode())
+print("MAC address",s.recv(1024).decode())
+```
 ## OUPUT -RARP
+
+![image](https://github.com/user-attachments/assets/7874226d-67c8-4f57-8e9b-c934aab13381)
+
 ## RESULT
 Thus, the python program for simulating ARP protocols using TCP was successfully 
 executed.
