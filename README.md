@@ -17,23 +17,39 @@ stored.
 5. Map the IP address with its MAC address and return the MAC address to client.
 P
 ## PROGRAM - ARP
+## Client-ARP:
 ```
 import socket
 s=socket.socket()
-s.bind(('localhost',8880))
+s.bind(('localhost',8000))
 s.listen(5)
 c,addr=s.accept()
-address={"192.168.144.56":" AC:50:DE:1B:DE:65"};
+address={"165.165.80.80":"6A:08:AA:C2","165.165.79.1":"8A:BC:E3:FA"};
 while True:
-ip=c.recv(1024).decode()
-try:
-c.send(address[ip].encode())
-except KeyError:
-c.send("Not Found".encode())
+    ip=c.recv(1024).decode()
+    try:
+        c.send(address[ip].encode())
+    except KeyError:
+        c.send("Not Found".encode())
+```
+
+## Server-ARP:
+```
+import socket
+s=socket.socket()
+s.connect(('localhost',8000))
+while True:
+    ip=input("Enter logical Address : ")
+    s.send(ip.encode())
+    print("MAC Address",s.recv(1024).decode())
 ```
 ## OUPUT - ARP
+## Client-ARP:
+![WhatsApp Image 2024-10-01 at 09 10 30_6be20c1e](https://github.com/user-attachments/assets/6d67855e-6299-4a4b-a731-211597372988)
 
-![image](https://github.com/user-attachments/assets/32555b1f-bfac-4c85-af90-7d4ca33d8744)
+## Server-ARP:
+![WhatsApp Image 2024-10-01 at 09 07 50_dd642430](https://github.com/user-attachments/assets/76875465-ab23-499c-bc3d-67c5825f19fb)
+
 
 
 ## PROGRAM - RARP
