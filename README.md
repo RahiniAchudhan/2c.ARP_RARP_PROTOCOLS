@@ -53,18 +53,47 @@ while True:
 
 
 ## PROGRAM - RARP
+
+## Client -RARP:
+
 ```
 import socket
 s=socket.socket()
-s.connect(('localhost',8880))
+s.bind(('localhost',9000))
+s.listen(5)
+c,addr=s.accept()
+address={"6A:08:AA:C2":"192.168.1.100","8A:BC:E3:FA":"192.168.1.99"};
 while True:
-ip=input("Enter Logical Address:")
-s.send(ip.encode())
-print("MAC address",s.recv(1024).decode())
+    ip=c.recv(1024).decode()
+    try:
+        c.send(address[ip].encode())
+    except KeyError:
+        c.send("Not Found".encode())
+```
+
+## Server -RARP:
+
+```
+import socket
+s=socket.socket()
+s.connect(('localhost',9000))
+while True:
+    ip=input("Enter MAC Address : ")
+    s.send(ip.encode())
+    print("Logical Address",s.recv(1024).decode())
 ```
 ## OUPUT -RARP
 
-![image](https://github.com/user-attachments/assets/7874226d-67c8-4f57-8e9b-c934aab13381)
+## Client -RARP:
+
+![WhatsApp Image 2024-10-01 at 09 25 03_eab6fbb1](https://github.com/user-attachments/assets/3067943b-34d6-409c-8890-636e34058425)
+
+
+## Server-RARP:
+
+![WhatsApp Image 2024-10-01 at 09 21 24_242b19f1](https://github.com/user-attachments/assets/3f909d44-b160-4900-aec3-e384e60f5e7c)
+
+
 
 ## RESULT
 Thus, the python program for simulating ARP protocols using TCP was successfully 
